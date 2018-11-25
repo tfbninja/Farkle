@@ -1,19 +1,59 @@
 package farkle;
 
+import java.time.LocalDateTime;
+import java.util.Random;
+
 /**
  *
  * @author Tim Barber
  */
-public class Farkle {
+public class Dice {
 
-    public static void main(String[] args) {
-        System.out.println("\nCopyright (c) 2018 Tim Barber under the MIT License"); //Header
+    private Random random;
+    private int seed;
+    private int value;
 
-        Dice dice = new Dice();
-
+    public Dice() {
+        this.seed = LocalDateTime.now().toLocalTime().toSecondOfDay();
+        this.random = new Random(seed);
+        this.value = random.nextInt(5) + 1;
     }
 
+    public Dice(int value) {
+        this.value = value;
+        this.seed = LocalDateTime.now().toLocalTime().toSecondOfDay();
+        this.random = new Random(seed);
+    }
+
+    public int roll() {
+        this.value = random.nextInt(5) + 1;
+        return this.value;
+    }
+
+    public int[] roll(int num) {
+        int[] rolls = new int[num];
+        for (int i = 0; i < num; i++) {
+            rolls[i] = roll();
+        }
+        return rolls;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
+
+    public void newSeed() {
+        this.seed = LocalDateTime.now().toLocalTime().toSecondOfDay();
+    }
+
+    @Override
+    public String toString() {
+        int unicodeVal = 2679 + this.value;
+        return String.valueOf(Character.toChars(unicodeVal));
+    }
 }
+
+
 /*
  * The MIT License
  *
